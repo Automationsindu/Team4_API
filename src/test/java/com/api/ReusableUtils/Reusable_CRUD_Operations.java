@@ -14,6 +14,10 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 public class Reusable_CRUD_Operations {
+	
+	
+	
+	/* ==============================    Request Specification builder     ============================ */
 public RequestSpecification getRequestSpec() throws FileNotFoundException
 {
 	RestAssured.baseURI=  EnvConstants.qaEnvironmentbaseURI;
@@ -25,12 +29,25 @@ public RequestSpecification getRequestSpec() throws FileNotFoundException
 	return req;
 }
 
-      /* =========Reusable code for POST request without endpoint =============== */
+
+
+/* ==============================Reusable code for POST request without endpoint ============================ */
 public Response create(RequestSpecification reqSpec,String requestBody, String endPoint) {
 	Response response = reqSpec.body(requestBody).when().post(endPoint);
 	
 	  // Log response details
       System.out.println(response.getBody().asPrettyString());
 	return response;
+} 
+
+
+/* =====================Reusable code for extracting particular given string value from response================ */
+
+public String extractStringFromResponse(Response response, String responseString)
+{
+	//System.out.println(response.asPrettyString());
+	String expecString= response.jsonPath().getString((responseString).trim());
+	return expecString;
+	
 }
 }
