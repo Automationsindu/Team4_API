@@ -25,11 +25,14 @@ public class UserLogin_Admin {
 
 	@When("User send POST HTTP request with endpoint")
 	public void user_send_post_http_request_with_endpoint() throws FileNotFoundException {
-		actionsLogin.loginToGetAuthorized_User(reqSpec);
+		response= actionsLogin.loginToGetAuthorized_User(reqSpec);
+		actionsLogin.storeAuthToken(response);
 	}
 
 	@Then("User recieves {int} created with response body")
 	public void user_recieves_created_with_response_body(Integer int1) {
+		
+		
 		System.out.println("test");
 	}
 

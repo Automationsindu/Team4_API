@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.api.EnvVariables.EnvConstants;
+import com.api.EnvVariables.EnvVariables;
 import com.api.ReusableUtils.Reusable_CRUD_Operations;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -18,7 +19,12 @@ public class UserLogin_Actions {
 	
 Reusable_CRUD_Operations restUtil= new Reusable_CRUD_Operations();
 private String requestBody = "";
+String token;
 	
+
+
+/*=================================reading credentials from properties file ======================================*/
+
 	public void readProperties()
 	{
 	Properties prop= new Properties();
@@ -65,13 +71,17 @@ private String requestBody = "";
 	}
 }
 	
+/*=================================Building request specification======================================*/
+	
 public RequestSpecification buildRequest() throws FileNotFoundException
 {
 	RequestSpecification reqSpec;
 	reqSpec = restUtil.getRequestSpec();
 	return reqSpec;
 }
+ 	
 
+/*============================post request to create auth token===============================================*/
 
 public Response loginToGetAuthorized_User(RequestSpecification reqSpec) throws FileNotFoundException {
 	readProperties();
@@ -79,5 +89,17 @@ public Response loginToGetAuthorized_User(RequestSpecification reqSpec) throws F
 	Response response = restUtil.create(reqSpec,requestBody, EnvConstants.login_Endpoint);
 	
 	return response;
+}
+
+
+/*===========================Storing the auth token in Env variables==============================================*/
+
+public void storeAuthToken(Response response)
+{
+	//System.out.println("response sending from actions "+response.asPrettyString());
+	String token= restUtil.extractStringFromResponse(response, "token");
+	System.out.println("The token from the response is "+ token);
+	EnvVariables.token=token;
+	System.out.println("The token stored in EnvVariables.token is "+ EnvVariables.token);
 }
 }
