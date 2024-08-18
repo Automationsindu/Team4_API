@@ -6,7 +6,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
+
+import org.apache.http.entity.ContentType;
 
 import com.api.EnvVariables.EnvConstants;
 import com.api.EnvVariables.EnvVariables;
@@ -25,6 +28,7 @@ Reusable_CRUD_Operations restUtil= new Reusable_CRUD_Operations();
 private String requestBody = "";
 String token;
 Response response;
+int statusCode;
 
 /*=================================reading credentials from properties file ======================================*/
 
@@ -86,69 +90,88 @@ public RequestSpecification buildRequest() throws FileNotFoundException
 
 /*============================post request to create auth token from excel===============================================*/
 
-public List<Integer> loginToGetAuthorized_User(RequestSpecification reqSpec) throws InvalidFormatException, IOException, org.apache.poi.openxml4j.exceptions.InvalidFormatException {
+public Integer loginToGetAuthorized_User(RequestSpecification reqSpec,String currentTag) throws org.apache.poi.openxml4j.exceptions.InvalidFormatException, IOException {
 	//readProperties();
 	
+	String trimmedCurrentTag = currentTag.startsWith("@")? currentTag.substring(1) : currentTag ;
 		  List<Map<String, String>> getUserData= (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_data"));
-		  int rowCount = getUserData.size();
-		  System.out.println("Total rows: " + rowCount);
-		  List<Integer> statusCodes = new ArrayList<>();
-		  for (Map<String, String> row : getUserData){
-			  
-			 String scenario = row.get("scenario");
-			String password= row.get("password");	
-			String userLoginEmail= row.get("userLoginEmail");
-			System.out.println("scenario from excel :"+scenario);
-			
-			 // Construct JSON payload using Gson
-		    JsonObject json = new JsonObject();
-		    json.addProperty("password", password);
-		    json.addProperty("userLoginEmail", userLoginEmail);
+		 Map<String, String> rowdata =getUserData.stream().filter(row -> row.get("scenario").equals(trimmedCurrentTag)).findFirst()
+				 .orElseThrow(() -> new RuntimeException("No matching data found for tag: " + trimmedCurrentTag));
+		 
+		 String password= rowdata.get("password");
+		String userLoginEmail= rowdata.get("userLoginEmail");
+		String scenario = rowdata.get("scenario");
+		System.out.println("scenario from excel :"+scenario);
 
-		    Gson gson = new Gson();
-		    requestBody = gson.toJson(json);
-		    System.out.println("Login request Body is : "+requestBody);
-		    // sending request
-			response = restUtil.create(reqSpec,requestBody, EnvConstants.login_Endpoint);
-			int code =response.getStatusCode();
-			statusCodes.add(code);
-			
-			 if ("Login1".equals(scenario)) {
-				    if (response.getStatusCode() == 200) {
-				    	System.out.println("Valid Login Successful :"+response.getStatusCode());
-				    	String token= restUtil.extractStringFromResponse(response, "token");
-				    	System.out.println("The token from the response is "+ token);
-				    	EnvVariables.token=token;
-				    	System.out.println("The token stored in EnvVariables.token is "+ EnvVariables.token);
-				    	
-				    }else {
-	                    System.out.println("Valid Login Failed with status code: " + response.getStatusCode());
-	                }
-			 }
-			 else if("Login2".equals(scenario)) {
-				 if (response.getStatusCode() == 401) {
-	                    System.out.println("Unauthorized login :" +response.getStatusCode());
-	                } else {
-	                    System.out.println("Unauthorized login with status code: " + response.getStatusCode());
-	                }
-	            }
-		  }
-		 return statusCodes;
-			 }
+		 // Construct JSON payload using Gson
+	    JsonObject json = new JsonObject();
+	    json.addProperty("password", password);
+	    json.addProperty("userLoginEmail", userLoginEmail);
+
+	    Gson gson = new Gson();
+	    requestBody = gson.toJson(json);
+	   
+	    // sending request
+	    switch(trimmedCurrentTag) {
+	    case "LoginPositive1":
+	    	response = restUtil.create(reqSpec,requestBody, EnvConstants.login_Endpoint);
+	    	break;
+	    
+	    case "LoginInvalidCredential2":
+	    	response = restUtil.create(reqSpec,requestBody, EnvConstants.login_Endpoint);
+	    	break;
+	    case "LoginInvalidMethod3":
+	    	response = restUtil.get(reqSpec,requestBody, EnvConstants.login_Endpoint);
+	    	
+	    case "LoginInvalidEndpoint4":
+	    	response = restUtil.create(reqSpec,requestBody, EnvConstants.Invalidlogin_Endpoint);
+	    	break;
+	    case "LoginInvalidContentType5":
+	    	RequestSpecification defaultSpec = restUtil.getRequestSpec();
+	    	RequestSpecification textspec = defaultSpec.contentType(io.restassured.http.ContentType.TEXT);
+	    	response = restUtil.create(textspec,requestBody, EnvConstants.login_Endpoint);
+	    	break;
+	    	default :
+	    		throw new RuntimeException("no matching tag :" +trimmedCurrentTag);
+	    }
+	    
+	    statusCode =response.getStatusCode();
+	    
+		    if (response.getStatusCode() == 200) {
+		    	System.out.println("Valid Login Successful :"+response.getStatusCode());
+		    	String token= restUtil.extractStringFromResponse(response, "token");
+		    	System.out.println("The token from the response is "+ token);
+		    	EnvVariables.token=token;
+		    	System.out.println("The token stored in EnvVariables.token is "+ EnvVariables.token);
+		    	
+		    }else {
+                System.out.println("Valid Login Failed with status code: " + response.getStatusCode());
+            }
+	    
+		 return statusCode;
+		
+}
+		 
 /*===========================verifying login response code =====================================================*/
-public void loginResponseCode(RequestSpecification reqSpec) throws InvalidFormatException, org.apache.poi.openxml4j.exceptions.InvalidFormatException, IOException {
-	 List<Integer> statusCodes = loginToGetAuthorized_User(reqSpec);
-	 for (int statusCode : statusCodes) {
+public void loginResponseCode(Integer statusCode,RequestSpecification reqSpec,String currentTag) throws org.apache.poi.openxml4j.exceptions.InvalidFormatException, IOException  {
+	
 	        if (statusCode == 200) {
 	        	System.out.println("Received 200 OK response.");
 	        } else if (statusCode == 401) {
 	        	   System.out.println("Received 401 Unauthorized response.");
 	        }
-}
+	        else if (statusCode == 405) {
+	        	   System.out.println("User recieves 405 method not allowed");
+	        }
+	        else if (statusCode == 415) {
+	        	System.out.println("User recieves 415 unsupported media type");
+	        }
+	        else if(statusCode == 400) {
+	        	System.out.println("User received Status 400 – Bad Request");
+	        }
+
 }
 		
-
-
 
 /*===========================Storing the auth token in Env variables==============================================*/
 
