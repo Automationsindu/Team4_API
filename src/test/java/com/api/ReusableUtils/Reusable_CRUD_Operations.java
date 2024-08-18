@@ -33,7 +33,7 @@ public RequestSpecification getRequestSpec() throws FileNotFoundException
 
 
 
-/* ==============================Reusable code for POST request without endpoint ============================ */
+/* ==============================Reusable code for POST request with endpoint ============================ */
 public Response create(RequestSpecification reqSpec,String requestBody, String endPoint) {
 	Response response = reqSpec.body(requestBody).when().post(endPoint);
 	
@@ -42,6 +42,13 @@ public Response create(RequestSpecification reqSpec,String requestBody, String e
 	return response;
 } 
 
+/* ==============================Reusable code for POST request with bearer token ============================ */
+public Response create(RequestSpecification reqSpec, String token, String requestBody, String endPoint) {
+	Response response = reqSpec.header("Authorization","Bearer "+ token)
+			.body(requestBody).when().post(endPoint);
+	
+	return response;
+}
 
 /* =====================Reusable code for extracting particular given string value from response================ */
 
