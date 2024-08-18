@@ -33,7 +33,7 @@ public RequestSpecification getRequestSpec() throws FileNotFoundException
 
 
 
-/* ==============================Reusable code for POST request without endpoint ============================ */
+/* ==============================Reusable code for POST request with endpoint ============================ */
 public Response create(RequestSpecification reqSpec,String requestBody, String endPoint) {
 	Response response = reqSpec.body(requestBody).when().post(endPoint);
 	

@@ -27,15 +27,27 @@ public class UserLogin_Admin {
 
 	@When("User send POST HTTP request with endpoint")
 	public void user_send_post_http_request_with_endpoint() throws InvalidFormatException, IOException {
-		response= actionsLogin.loginToGetAuthorized_User(reqSpec);
-		actionsLogin.storeAuthToken(response);
+		try {
+		//	response= actionsLogin.loginToGetAuthorized_User(reqSpec);
+			actionsLogin.loginToGetAuthorized_User(reqSpec);
+			
+		} catch (org.apache.poi.openxml4j.exceptions.InvalidFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//actionsLogin.storeAuthToken(response);
 	}
+	
 
-	@Then("User recieves {int} created with response body")
-	public void user_recieves_created_with_response_body(Integer int1) {
+	@Then("User recieves status code created with response body")
+	public void user_recieves_created_with_response_body() {
+		try {
+			actionsLogin.loginResponseCode(reqSpec);
+		} catch (org.apache.poi.openxml4j.exceptions.InvalidFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		
-		System.out.println("test");
 	}
 	@Given("User creates Post request with invalid credential")
 	public void user_creates_post_request_with_invalid_credential() throws FileNotFoundException {
@@ -44,7 +56,7 @@ public class UserLogin_Admin {
 
 	@Then("User recieves {int} unauthorized")
 	public void user_recieves_unauthorized(Integer int1) {
-	   System.out.println("user_recieves_401 unauthorized");
+	   System.out.println("user recieves 401 unauthorized");
 	}
 
 }

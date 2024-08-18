@@ -1,9 +1,9 @@
 package com.api.Actions;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -24,30 +24,8 @@ public class UserLogin_Actions {
 Reusable_CRUD_Operations restUtil= new Reusable_CRUD_Operations();
 private String requestBody = "";
 String token;
+Response response;
 
-/*=================================reading credentials from Excel file ======================================*/
-
-public void readExcel() throws InvalidFormatException, IOException {
-
-	try {
-List<Map<String, String>> getUserData= (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_data"));
-for (Map<String, String> row : getUserData){
-	String password= row.get("password");	
-	String userLoginEmail= row.get("userLoginEmail");
-	 // Construct JSON payload using Gson
-    JsonObject json = new JsonObject();
-    json.addProperty("password", password);
-    json.addProperty("userLoginEmail", userLoginEmail);
-
-    Gson gson = new Gson();
-    requestBody = gson.toJson(json);
-	
-}
-}
-	catch (IOException | org.apache.poi.openxml4j.exceptions.InvalidFormatException e) {
-        e.printStackTrace(); // Print the exception stack trace for debugging
-    }
-}
 /*=================================reading credentials from properties file ======================================*/
 
 	public void readProperties()
@@ -106,16 +84,70 @@ public RequestSpecification buildRequest() throws FileNotFoundException
 }
  	
 
-/*============================post request to create auth token===============================================*/
+/*============================post request to create auth token from excel===============================================*/
 
-public Response loginToGetAuthorized_User(RequestSpecification reqSpec) throws InvalidFormatException, IOException {
+public List<Integer> loginToGetAuthorized_User(RequestSpecification reqSpec) throws InvalidFormatException, IOException, org.apache.poi.openxml4j.exceptions.InvalidFormatException {
 	//readProperties();
-	readExcel();
-	System.out.println("Login request Body is : "+requestBody);
-	Response response = restUtil.create(reqSpec,requestBody, EnvConstants.login_Endpoint);
 	
-	return response;
+		  List<Map<String, String>> getUserData= (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_data"));
+		  int rowCount = getUserData.size();
+		  System.out.println("Total rows: " + rowCount);
+		  List<Integer> statusCodes = new ArrayList<>();
+		  for (Map<String, String> row : getUserData){
+			  
+			 String scenario = row.get("scenario");
+			String password= row.get("password");	
+			String userLoginEmail= row.get("userLoginEmail");
+			System.out.println("scenario from excel :"+scenario);
+			
+			 // Construct JSON payload using Gson
+		    JsonObject json = new JsonObject();
+		    json.addProperty("password", password);
+		    json.addProperty("userLoginEmail", userLoginEmail);
+
+		    Gson gson = new Gson();
+		    requestBody = gson.toJson(json);
+		    System.out.println("Login request Body is : "+requestBody);
+		    // sending request
+			response = restUtil.create(reqSpec,requestBody, EnvConstants.login_Endpoint);
+			int code =response.getStatusCode();
+			statusCodes.add(code);
+			
+			 if ("Login1".equals(scenario)) {
+				    if (response.getStatusCode() == 200) {
+				    	System.out.println("Valid Login Successful :"+response.getStatusCode());
+				    	String token= restUtil.extractStringFromResponse(response, "token");
+				    	System.out.println("The token from the response is "+ token);
+				    	EnvVariables.token=token;
+				    	System.out.println("The token stored in EnvVariables.token is "+ EnvVariables.token);
+				    	
+				    }else {
+	                    System.out.println("Valid Login Failed with status code: " + response.getStatusCode());
+	                }
+			 }
+			 else if("Login2".equals(scenario)) {
+				 if (response.getStatusCode() == 401) {
+	                    System.out.println("Unauthorized login :" +response.getStatusCode());
+	                } else {
+	                    System.out.println("Unauthorized login with status code: " + response.getStatusCode());
+	                }
+	            }
+		  }
+		 return statusCodes;
+			 }
+/*===========================verifying login response code =====================================================*/
+public void loginResponseCode(RequestSpecification reqSpec) throws InvalidFormatException, org.apache.poi.openxml4j.exceptions.InvalidFormatException, IOException {
+	 List<Integer> statusCodes = loginToGetAuthorized_User(reqSpec);
+	 for (int statusCode : statusCodes) {
+	        if (statusCode == 200) {
+	        	System.out.println("Received 200 OK response.");
+	        } else if (statusCode == 401) {
+	        	   System.out.println("Received 401 Unauthorized response.");
+	        }
 }
+}
+		
+
 
 
 /*===========================Storing the auth token in Env variables==============================================*/
