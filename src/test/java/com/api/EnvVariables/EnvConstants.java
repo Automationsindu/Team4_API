@@ -11,6 +11,7 @@ public class EnvConstants {
 	
 	public static final String createDietician_Endpoint= "/dietician";
 	
+	public static String Excelpath = ".\\src\\test\\resources\\Test_Data\\Dietician_testdata.xlsx";
 	
  
  
