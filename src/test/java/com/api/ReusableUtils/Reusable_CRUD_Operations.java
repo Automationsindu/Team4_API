@@ -27,11 +27,9 @@ public RequestSpecification getRequestSpec() throws FileNotFoundException
 	
 	RequestSpecification req= RestAssured.given().auth().none()
 							  .filter(RequestLoggingFilter.logRequestTo(log)).filter(ResponseLoggingFilter.logResponseTo(log))
-							  .contentType(ContentType.JSON);;
+							  .contentType(ContentType.JSON);
 	return req;
 }
-
-
 
 /* ==============================Reusable code for POST request with endpoint ============================ */
 public Response create(RequestSpecification reqSpec,String requestBody, String endPoint) {
@@ -41,7 +39,14 @@ public Response create(RequestSpecification reqSpec,String requestBody, String e
       System.out.println(response.getBody().asPrettyString());
 	return response;
 } 
-
+/* ==============================code for GET request as Invalid Method request  ============================ */
+public Response get(RequestSpecification reqSpec,String requestBody, String endPoint) {
+	Response response = reqSpec.body(requestBody).when().get(endPoint);
+	
+	  // Log response details
+      System.out.println(response.getBody().asPrettyString());
+	return response;
+} 
 /* ==============================Reusable code for POST request with bearer token ============================ */
 public Response create(RequestSpecification reqSpec, String token, String requestBody, String endPoint) {
 	Response response = reqSpec.header("Authorization","Bearer "+ token)

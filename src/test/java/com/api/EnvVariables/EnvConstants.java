@@ -13,6 +13,8 @@ public class EnvConstants {
 	
 	public static String Excelpath = ".\\src\\test\\resources\\Test_Data\\Dietician_testdata.xlsx";
 	
+	public static String Invalidlogin_Endpoint="///login";
+	
  
  
 }
