@@ -13,7 +13,7 @@ import io.cucumber.junit.CucumberOptions;
 //features = { "src/test/resources/features" }, // location of feature files
 //glue = {"stepDefinition","ApplicationHooks","Utilities"}) // location of step definition files
 
-@CucumberOptions(//tags ="@Login1",
+@CucumberOptions(tags ="@Login1",
 		features = "src/test/resources/Feature/01.userLogin.feature",
 glue = {"com.api.StepDefs"})
 
