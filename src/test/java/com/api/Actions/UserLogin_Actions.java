@@ -2,10 +2,9 @@ package com.api.Actions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -49,21 +48,19 @@ public class UserLogin_Actions {
 		reqSpec = restUtil.getRequestSpec();
 		return reqSpec;
 	}
-
+	
 	/*
 	 * ============================post request to create auth token from
 	 * excel===============================================
 	 */
 
-	public Response loginToGetAuthorized_User(RequestSpecification reqSpec, String currentTag)
-			throws org.apache.poi.openxml4j.exceptions.InvalidFormatException, IOException {
-
+	public Response loginToGetAuthorized_User(RequestSpecification reqSpec, String currentTag) throws InvalidFormatException, IOException
+			 {
 		String trimmedCurrentTag = currentTag.startsWith("@") ? currentTag.substring(1) : currentTag;
 		List<Map<String, String>> getUserData = (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_data"));
 		Map<String, String> rowdata = getUserData.stream().filter(row -> row.get("scenario").equals(trimmedCurrentTag))
 				.findFirst()
 				.orElseThrow(() -> new RuntimeException("No matching data found for tag: " + trimmedCurrentTag));
-
 		String password = rowdata.get("password");
 		String userLoginEmail = rowdata.get("userLoginEmail");
 		String scenario = rowdata.get("scenario");
