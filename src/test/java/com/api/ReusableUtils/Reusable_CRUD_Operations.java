@@ -49,12 +49,20 @@ public Response get(RequestSpecification reqSpec,String requestBody, String endP
 } 
 /* ==============================Reusable code for POST request with bearer token ============================ */
 public Response create(RequestSpecification reqSpec, String token, String requestBody, String endPoint) {
+	
 	Response response = reqSpec.header("Authorization","Bearer "+ token)
 			.body(requestBody).when().post(endPoint);
 	
 	return response;
 }
-
+/* ==============================code for PUT request as Invalid Method request============================ */
+public Response put(RequestSpecification reqSpec, String token, String requestBody, String endPoint) {
+	
+	Response response = reqSpec.header("Authorization","Bearer "+ token)
+			.body(requestBody).when().put(endPoint);
+	
+	return response;
+}
 /* =====================Reusable code for extracting particular given string value from response================ */
 
 public String extractStringFromResponse(Response response, String responseString)
