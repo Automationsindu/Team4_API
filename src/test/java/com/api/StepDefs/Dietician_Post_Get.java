@@ -30,26 +30,40 @@ public class Dietician_Post_Get {
 		currentTag = scenario.getSourceTagNames().iterator().next();
 	}
 
-	@Given("Set admin token and Admin creates Dietician POST request with valid data")
-	public void set_admin_token_and_admin_creates_dietician_post_request_with_valid_data() throws InvalidFormatException, IOException {
+	@Given("Admin creates Dietician POST request with valid data")
+	public void admin_creates_dietician_post_request_with_valid_data() throws InvalidFormatException, IOException {
 	    
 		reqSpec = actionsDietician.buildRequest();
 		requestData = actionsDietician.buildValidRequestData(reqSpec);
 		
 		
 	}
-
-	@Given("Set admin token and Admin creates Dietician POST request with invalid data")
-	public void set_admin_token_and_admin_creates_dietician_post_request_with_invalid_data() throws InvalidFormatException, IOException {
-	    
-		reqSpec = actionsDietician.buildRequest();
-		requestData = actionsDietician.buildInValidRequestData(reqSpec,currentTag);
-		
-		
-	}
 	
-	  @When("Admin sends Dietician POST http request with endpoint") 
-	  public void admin_sends_dietician_post_http_request_with_endpoint() throws
+	@Given("Admin creates Dietician POST request with {string}")
+	public void admin_creates_dietician_post_request_with(String invalidData) throws InvalidFormatException, IOException {
+		
+		reqSpec = actionsDietician.buildRequest();
+		
+		System.out.println("in step def "+invalidData);
+		requestData = actionsDietician.buildInValidRequestData(reqSpec,currentTag,invalidData);
+	   
+	}
+
+	/*
+	 * @Given("Set admin token and Admin creates Dietician POST request with invalid data"
+	 * ) public void
+	 * set_admin_token_and_admin_creates_dietician_post_request_with_invalid_data()
+	 * throws InvalidFormatException, IOException {
+	 * 
+	 * reqSpec = actionsDietician.buildRequest(); requestData =
+	 * actionsDietician.buildInValidRequestData(reqSpec,currentTag);
+	 * 
+	 * 
+	 * }
+	 */
+	
+	  @When("Set admin token and Admin sends Dietician POST http request with endpoint") 
+	  public void set_admin_token_and_admin_sends_dietician_post_http_request_with_endpoint() throws
 	  InvalidFormatException, IOException {
 		  
 		  //requestData = actionsDietician.buildInValidRequestData(reqSpec,currentTag);
@@ -63,12 +77,13 @@ public class Dietician_Post_Get {
 	  }
 	 
 	
-	@When("Admin sends Dietician {string} POST http request with endpoint")
-	public void admin_sends_dietician_post_http_request_with_endpoint(String dieticianCount) throws InvalidFormatException, IOException {
+	@When("Set admin token and Admin sends Dietician {string} POST http request with endpoint")
+	public void set_admin_token_and_admin_sends_dietician_post_http_request_with_endpoint(String dieticianCount) throws InvalidFormatException, IOException {
 		
 		 //requestData = actionsDietician.buildValidRequestData(reqSpec);
 		 
 		 response = actionsDietician.createDietician(reqSpec,requestData,currentTag);
+		 actionsDietician.validateRequest(response);
 		
 		//response = actionsDietician.createDietician(reqSpec,currentTag);
 		
@@ -76,8 +91,8 @@ public class Dietician_Post_Get {
 		
 	}
 	
-	@When("Admin sends Dietician PUT http request with endpoint")
-	public void admin_sends_dietician_put_http_request_with_endpoint() throws InvalidFormatException, IOException {
+	@When("Set admin token and Admin sends Dietician PUT http request with endpoint")
+	public void set_admin_token_and_admin_sends_dietician_put_http_request_with_endpoint() throws InvalidFormatException, IOException {
 		
 		response = actionsDietician.createDietician(reqSpec,requestData,currentTag);
 	    
@@ -89,8 +104,8 @@ public class Dietician_Post_Get {
 	    
 	}
 	
-	@When("Admin sends Dietician POST http request with invalid endpoint")
-	public void admin_sends_dietician_post_http_request_with_invalid_endpoint() throws InvalidFormatException, IOException {
+	@When("Set admin token and Admin sends Dietician POST http request with invalid endpoint")
+	public void set_admin_token_and_admin_sends_dietician_post_http_request_with_invalid_endpoint() throws InvalidFormatException, IOException {
 		
 		response = actionsDietician.createDietician(reqSpec,requestData,currentTag);
 	    
@@ -102,8 +117,8 @@ public class Dietician_Post_Get {
 	    
 	}
 	
-	@When("Admin send POST http request with valid endpoint and invalid content type")
-	public void admin_send_post_http_request_with_valid_endpoint_and_invalid_content_type() throws InvalidFormatException, IOException {
+	@When("Set admin token and Admin send POST http request with valid endpoint and invalid content type")
+	public void set_admin_token_and_admin_send_post_http_request_with_valid_endpoint_and_invalid_content_type() throws InvalidFormatException, IOException {
 		
 		response = actionsDietician.createDietician(reqSpec,requestData,currentTag);
 	    
@@ -127,6 +142,7 @@ public class Dietician_Post_Get {
 	public void admin_should_receive_bad_request(Integer int1) {
 		
 		assertThat("Status code is not equal", response.getStatusCode(), is(int1));
+		System.out.println(response.getStatusLine());
 	    
 	}
 	
