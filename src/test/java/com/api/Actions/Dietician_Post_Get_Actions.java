@@ -95,19 +95,7 @@ public class Dietician_Post_Get_Actions {
 	public String buildInValidRequestData(RequestSpecification reqSpec , String currentTag, String invalidData)
 			throws InvalidFormatException, IOException {
 		
-		
-		
-		/*
-		 * String trimmedCurrentTag = currentTag.startsWith("@") ?
-		 * currentTag.substring(1) : currentTag; System.out.println(trimmedCurrentTag);
-		 * 
-		 * List<Map<String, String>> getUserData =
-		 * (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_Create"));
-		 * Map<String, String> rowdata = getUserData.stream() .filter(row ->
-		 * row.get("scenario").equals(trimmedCurrentTag)).findFirst() .orElseThrow(() ->
-		 * new RuntimeException("No matching data found for tag: " +
-		 * trimmedCurrentTag));
-		 */
+	
 		System.out.println("invalid data is "+invalidData);
 		List<Map<String, String>> getUserData =
 				 (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_Create"));
