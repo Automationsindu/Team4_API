@@ -59,13 +59,13 @@ public Response create(RequestSpecification reqSpec, String token, String reques
 public Response retrieve(RequestSpecification reqSpec, String token, String endPoint) {
 	Response response = reqSpec.header("Authorization","Bearer "+ token)
 			.when().get(endPoint);
-	
+	 System.out.println(response.getBody().asPrettyString());
 	return response;
 }
 /* ==============================Reusable code for GET request with no token============================ */
 public Response retrieve(RequestSpecification reqSpec, String endPoint) {
 	Response response = reqSpec.when().get(endPoint);
-	
+	 System.out.println(response.getBody().asPrettyString());
 	return response;
 }
 /* ==============================code for POST request with no request body as Invalid Method request============================ */
