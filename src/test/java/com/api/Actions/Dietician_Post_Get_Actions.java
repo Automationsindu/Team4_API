@@ -164,12 +164,11 @@ public class Dietician_Post_Get_Actions {
 		    case "create_dietician_invalidMethod":
 		    	response = restUtil.put(reqSpec, EnvVariables.token, requestBody,
 						EnvConstants.createDietician_Endpoint);
-		  
 		    	break;
 		    	
-		    case "create_dietician_invalidEndpoint":
-		    	response = restUtil.create(reqSpec, EnvVariables.token, requestBody,
-						EnvConstants.Invalid_createDietician_Endpoint);
+		    case "create_dietician_no_auth":
+		    	response = restUtil.create(reqSpec,requestBody,
+						EnvConstants.createDietician_Endpoint);
 		    	break;
 		    case "create_dietician_invalidContentType":
 		    	//RequestSpecification defaultSpec = restUtil.getRequestSpec();
@@ -178,12 +177,98 @@ public class Dietician_Post_Get_Actions {
 		    	response = restUtil.create(textspec, EnvVariables.token, requestBody,
 						EnvConstants.createDietician_Endpoint);
 		    	break;
+		    case "create_dietician_invalidEndpoint":
+		    	response = restUtil.create(reqSpec, EnvVariables.token, requestBody,
+						EnvConstants.Invalid_createDietician_Endpoint);
+		    	break;
 		    	default :
 		    		throw new RuntimeException("no matching tag :" +trimmedCurrentTag);
 		    }
 		    
 		    //System.out.println("out switch case "+response.asPrettyString());
 		 
+		return response;
+	}
+	
+	public Response getAllDieticians(RequestSpecification reqSpec,String currentTag)
+			throws InvalidFormatException, IOException {
+
+		
+		String trimmedCurrentTag = currentTag.startsWith("@")? currentTag.substring(1) : currentTag ;
+		
+		System.out.println("trimmedCurrentTag is : " + trimmedCurrentTag);
+		 
+		    // sending request
+		
+		    switch(trimmedCurrentTag) {
+		    case "get_all_dieticians_no_auth":
+		    	response = restUtil.retrieve(reqSpec,
+						EnvConstants.createDietician_Endpoint);
+		    	break;
+		    
+		    case "get_all_dieticians_positive":
+		    	response = restUtil.retrieve(reqSpec, EnvVariables.token,
+						EnvConstants.createDietician_Endpoint);
+		    	break;
+		    case "get_all_dieticians_invalidMethod":
+		    	response = restUtil.put(reqSpec, EnvVariables.token,EnvConstants.createDietician_Endpoint);
+		    	break;
+		    	
+		    case "get_all_dieticians_invalidEndpoint":
+		    	response = restUtil.retrieve(reqSpec, EnvVariables.token,
+						EnvConstants.Invalid_createDietician_Endpoint);
+		    	break;
+		  
+		    	default :
+		    		throw new RuntimeException("no matching tag :" +trimmedCurrentTag);
+		    }
+	 
+		return response;
+	}
+	
+	public Response getDieticianByID(RequestSpecification reqSpec,String currentTag)
+			throws InvalidFormatException, IOException {
+
+		
+		String trimmedCurrentTag = currentTag.startsWith("@")? currentTag.substring(1) : currentTag ;
+		
+		System.out.println("trimmedCurrentTag is : " + trimmedCurrentTag);
+		
+		//String endpoint = EnvConstants.createDietician_Endpoint.concat(EnvVariables.dietician1_ID);
+		
+		String endpoint = EnvConstants.createDietician_Endpoint+"/"+EnvVariables.dietician1_ID;
+		
+		System.out.println("endpoint is : " + endpoint);
+		 
+		    // sending request
+		
+		    switch(trimmedCurrentTag) {
+		    case "get_dietician_ID_no_auth":
+		    	response = restUtil.retrieve(reqSpec,
+		    			endpoint);
+		    	break;
+		    
+		    case "get_dietician_ID_positive":
+		    	response = restUtil.retrieve(reqSpec, EnvVariables.token,
+		    			endpoint);
+		    	break;
+		    case "get_dietician_ID_invalidMethod":
+		    	response = restUtil.post(reqSpec, EnvVariables.token,endpoint);
+		    	break;
+		    	
+		    case "get_dietician_ID_invalidID":
+		    	response = restUtil.retrieve(reqSpec, EnvVariables.token,EnvConstants.createDietician_Endpoint+"/"+"12000");
+		    	break;
+		    	
+		    case "get_dietician_ID_invalidEndpoint":
+		    	response = restUtil.retrieve(reqSpec, EnvVariables.token,EnvConstants.Invalid_createDietician_Endpoint+"/"+EnvVariables.dietician1_ID);
+		    	break;
+		  
+		    	default :
+		    		throw new RuntimeException("no matching tag :" +trimmedCurrentTag);
+		    }
+		    System.out.println("out switch case "+response.asPrettyString());
+	 
 		return response;
 	}
 
