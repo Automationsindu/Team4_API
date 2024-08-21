@@ -38,6 +38,22 @@ public Response RetrieveAdminMorbidity(RequestSpecification reqSpec)
 	return response;
   }
 
+
+
+public Response morbidityAdminInvalidEndpoint(RequestSpecification reqSpec)
+{
+    response = restUtil.retrieve(reqSpec, EnvVariables.token, "uio");
+	//System.out.println("The Admin token for Morbidity stored in EnvVariables.token is "+ EnvVariables.token);
+	return response;
+}
+
+public Response morbidityAdminInvalidMethod(RequestSpecification reqSpec)
+{
+    response = restUtil.post(reqSpec, EnvVariables.token, EnvConstants.morbidity_Endpoint);
+	System.out.println("The Admin token for Morbidity stored in EnvVariables.token is "+ EnvVariables.token);
+	return response;
+}
+
 public Response GetMorbiditywithNoAuth(RequestSpecification reqSpec)
 {
     response = restUtil.retrieve(reqSpec, EnvConstants.morbidity_Endpoint);
@@ -51,6 +67,31 @@ public Response RetrieveDieticianMorbidity(RequestSpecification reqSpec)
 	System.out.println("The Dietician token for Morbidity stored in EnvVariables.Diet_token is "+ EnvVariables.Diet_token);
 	return response;
 }
+
+
+public Response morbidityDieticianInvalidMethod(RequestSpecification reqSpec)
+{
+    response = restUtil.post(reqSpec, EnvVariables.Diet_token, EnvConstants.morbidity_Endpoint);
+	System.out.println("The Dietitian token for Morbidity stored in EnvVariables.Diet_token is "+ EnvVariables.Diet_token);
+	return response;
+}
+
+
+
+public Response morbidityDieticianInvalidEndpoint(RequestSpecification reqSpec)
+{
+    response = restUtil.retrieve(reqSpec, EnvVariables.Diet_token, "invalidendpont");
+    System.out.println("The Dietitian token for Morbidity stored in EnvVariables.Diet_token is "+ EnvVariables.Diet_token);
+	return response;
+}
+
+public Response morbidityPatient(RequestSpecification reqSpec)
+{
+    response = restUtil.retrieve(reqSpec, EnvVariables.Patient_token, EnvConstants.morbidity_Endpoint);
+	System.out.println("The Patient token for Morbidity stored in Patient_token is "+ EnvVariables.Patient_token);
+	return response;
+}
+
 
 }
 
