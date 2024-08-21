@@ -8,5 +8,7 @@ public class EnvVariables {
 	public static String dietician1_Email;
 	public static String dietician1_ID;
 	public static String patient1_Email1;
-
+	public static String dietician2_ID;
+	public static String dietician2_Email;
+	public static String dietician2_loginPassword;
 }
