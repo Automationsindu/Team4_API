@@ -25,6 +25,11 @@ public class UserLogin_Actions {
 	String token;
 	Response response;
 	int statusCode;
+	String diet_Email;
+	String diet_Pwd;
+	String patient_Email;
+	String patient_Pwd;
+	
 
 	/*
 	 * ================================create json payload======================================
@@ -73,6 +78,7 @@ public class UserLogin_Actions {
 		switch (trimmedCurrentTag) {
 		case "LoginPositive1":
 			response = restUtil.create(reqSpec, requestBody, EnvConstants.login_Endpoint);
+			System.out.println("Admin loggedin successfully");
 			break;
 
 		case "LoginInvalidCredential2":
@@ -112,20 +118,37 @@ public class UserLogin_Actions {
 	 * ======================================================================
 	 */
 
-	public Response DietLogin(RequestSpecification reqSpec) {
+	public Response DietLogin(RequestSpecification reqSpec,String currentTag) throws InvalidFormatException, IOException {
+		String trimmedCurrentTag = currentTag.startsWith("@") ? currentTag.substring(1) : currentTag;
+		List<Map<String, String>> getUserData = (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_data"));
+		Map<String, String> rowdata = getUserData.stream().filter(row -> row.get("scenario").equals(trimmedCurrentTag))
+				.findFirst()
+				.orElseThrow(() -> new RuntimeException("No matching data found for tag: " + trimmedCurrentTag));
+		
+		if (trimmedCurrentTag.equals("DieticianLogin1")) {
+		
+		diet_Email = EnvVariables.dietician1_Email;
+		diet_Pwd = EnvVariables.dietician1_loginPassword;
+		System.out.println("Dietician loggedin successfully");
 
-		String diet_Email = EnvVariables.dietician1_Email;
-		String diet_Pwd = EnvVariables.dietician1_loginPassword;
+		}
+		else if(trimmedCurrentTag.equals("DieticianInvalid2")) {
+			
+			diet_Email = rowdata.get("userLoginEmail");
+			diet_Pwd = rowdata.get("password");
+		}
+		
 		// Construct JSON payload using Gson
 
 		requestBody = createJsonPayload("password", diet_Pwd, "userLoginEmail", diet_Email);
+		System.out.println("request body : "+requestBody);
 		response = restUtil.create(reqSpec, requestBody, EnvConstants.login_Endpoint);
 
 		if (response.getStatusCode() == 200) {
 			String token = restUtil.extractStringFromResponse(response, "token");
 			System.out.println("The Dietician token from the response is " + token);
 			EnvVariables.Diet_token = token;
-			System.out.println("The token stored in EnvVariables.token is " + EnvVariables.Diet_token);
+			System.out.println("The Dietician token stored in EnvVariables.token is " + EnvVariables.Diet_token);
 
 		} else {
 			System.out.println("Valid Login Failed with status code: " + response.getStatusCode());
@@ -139,14 +162,21 @@ public class UserLogin_Actions {
 	 */
 	public Response PatientLogin(RequestSpecification reqSpec, String currentTag)
 			throws InvalidFormatException, IOException {
-
+		
 		String trimmedCurrentTag = currentTag.startsWith("@") ? currentTag.substring(1) : currentTag;
 		List<Map<String, String>> getUserData = (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_data"));
 		Map<String, String> rowdata = getUserData.stream().filter(row -> row.get("scenario").equals(trimmedCurrentTag))
 				.findFirst()
 				.orElseThrow(() -> new RuntimeException("No matching data found for tag: " + trimmedCurrentTag));
-		String patient_Email = EnvVariables.patient1_Email1;
-		String patient_Pwd = rowdata.get("password");
+		if (trimmedCurrentTag.equals("PatientLogin1")){
+		patient_Email = EnvVariables.patient1_Email1;
+		patient_Pwd = rowdata.get("password");
+		System.out.println("Patient loggedin successfully");
+		}
+		else if(trimmedCurrentTag.equals("PatientInvalidLogin2")) {
+			patient_Email = rowdata.get("userLoginEmail");
+			patient_Pwd = rowdata.get("password");
+			}
 		// Construct JSON payload using Gson
 
 		requestBody = createJsonPayload("password", patient_Pwd, "userLoginEmail", patient_Email);
@@ -157,7 +187,7 @@ public class UserLogin_Actions {
 			String token = restUtil.extractStringFromResponse(response, "token");
 			System.out.println("The Patient token from the response is " + token);
 			EnvVariables.Patient_token = token;
-			System.out.println("The token stored in EnvVariables.token is " + EnvVariables.Patient_token);
+			System.out.println("The Patient token stored in EnvVariables.token is " + EnvVariables.Patient_token);
 
 		} else {
 			System.out.println("Valid Login Failed with status code: " + response.getStatusCode());

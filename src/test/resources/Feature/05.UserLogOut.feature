@@ -1,63 +1,62 @@
 #Author: Vani
-#Keywords Summary :
 
 Feature: User Log out
  
  Background: Set bearer token in header
 
-  @Logout1
+  @AdminLogout1
   Scenario: Check admin able to logout  
-    Given User creates GET request 
-    When User send GET HTTP request with endpoint
-    Then User recieves 200 created with Logout successful message
+    Given Admin User creates GET request to logout
+    When Admin User send GET HTTP request with endpoint
+    Then Admin User recieves 200 created with Logout successful message
     
-   @Logout2
+   @AdminLogout2
   Scenario: Check admin able to logout  with invalid method
-    Given User creates POST request
-    When User send POST HTTP request with endpoint
-    Then User recieves 405 method not allowed
+    Given Admin User creates POST request to logout
+    When Admin User send POST HTTP request with endpoint to logout
+    Then Admin User recieves 405 method not allowed when logging out
 
- @Logout3
+ @DieticianLogout3
   Scenario: Check dietician able to logout  
-     Given User creates GET request 
-    When User send GET HTTP request with endpoint
-    Then User recieves 200 created with Logout successful message
+     Given Dietician User creates GET request to logout
+    When Dietician User send GET HTTP request with endpoint to logout
+    Then Dietician User recieves 200 created with Logout successful message
     
-@Logout4
+@DieticianLogout4
 Scenario:Check dietician able to logout  with invalid method
-Given User creates POST request
-When User send POST HTTP request with endpoint
-Then User recieves 405 method not allowed
+Given Dietician User creates POST request to logout
+When Dietician User send POST HTTP request with endpoint
+Then Dietician User recieves 405 method not allowed when logging out
 
-@Logout5
+@patientLogout5
 Scenario: Check patient able to logout  
-Given User creates GET request 
-When User send GET HTTP request with endpoint
-Then User recieves 200 created with Logout successful message
+Given patient User creates GET request to logout
+When patient User send GET HTTP request with endpoint to logout
+Then patient User recieves 200 created with Logout successful message
 
-@Logout6
+@patientLogout6
 Scenario: Check patient able to logout  with invalid method
-Given User creates POST request 
-When User send POST HTTP request with endpoint
-Then User recieves 405 method not allowed
+Given patient User creates POST request to logout
+When patient User send POST HTTP request with endpoint to logout
+Then patient User recieves 405 method not allowed while logging out
 
 @LogoutAdminwithoutAuth7
 Scenario: Check admin able to logout  without auth
-Given User creates GET request 
-When User send GET HTTP request with endpoint
-Then User recieves 401 unauthorized
+Given Admin User creates GET request to logout
+When Admin User send GET HTTP request with no Auth and with endpoint
+Then Admin User recieves 401 unauthorized without auth
 
 @LogoutDietwithoutAuth8
 Scenario: Check dietician able to logout  
-Given User creates GET request 
-When User send GET HTTP request with endpoint
-Then User recieves 401 unauthorized
+Given Dietician User creates GET request to logout
+When Dietician User send GET HTTP request with no Auth and with endpoint to logout
+Then Dietician User recieves 401 unauthorized without auth
 
 @LogoutPatientwithoutAuth9
 Scenario: Check patient able to logout  
-Given User creates GET request 
-When User send GET HTTP request with endpoint
-Then User recieves 401 unauthorized
+Given patient User creates GET request to logout
+When Patient User send GET HTTP request with endpoint and without auth
+Then Patient User recieves 401 unauthorized without auth
 
 
 
