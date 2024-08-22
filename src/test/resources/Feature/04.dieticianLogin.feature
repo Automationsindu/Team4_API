@@ -3,7 +3,7 @@
 
 Feature: Dietician Login
  
-@DieticianLogin1
+@DieticianLogin1 @positive11
 Scenario: Check user able to login as dietician with valid credential
 Given User creates Post request with request body for Dietician login
 When User send POST HTTP request with endpoint for Dietician login
