@@ -11,10 +11,11 @@ import io.cucumber.junit.CucumberOptions;
 //dryRun = !true, //To add new method give true
 
 
-@CucumberOptions(//tags ="@LoginPositive1 or @Logout1",
+@CucumberOptions(tags ="@DieticianInvalid2",
+//"@LoginPositive1 or  @create_dietician_positive or @DieticianLogin1",
 		//or @DieticianInvalid2",
-		features = {"src/test/resources/Feature/01.userLogin.feature",
-				    "src/test/resources/Feature/05.UserLogOut.feature"},
+		features = "src/test/resources/Feature",
+				    //"src/test/resources/Feature/05.UserLogOut.feature"},
         glue = {"com.api.StepDefs"},
         plugin = {"pretty", "html:target/cucumber-reports"})
 

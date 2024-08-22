@@ -55,13 +55,14 @@ public class UserLogin_Actions {
 	}
 	
 	/*
-	 * ============================post request to create auth token from
+	 * ============================UserLogin request to create auth token from
 	 * excel===============================================
 	 */
 
 	public Response loginToGetAuthorized_User(RequestSpecification reqSpec, String currentTag) throws InvalidFormatException, IOException
 			 {
 		String trimmedCurrentTag = currentTag.startsWith("@") ? currentTag.substring(1) : currentTag;
+		
 		List<Map<String, String>> getUserData = (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_data"));
 		Map<String, String> rowdata = getUserData.stream().filter(row -> row.get("scenario").equals(trimmedCurrentTag))
 				.findFirst()
@@ -119,23 +120,18 @@ public class UserLogin_Actions {
 	 */
 
 	public Response DietLogin(RequestSpecification reqSpec,String currentTag) throws InvalidFormatException, IOException {
-		String trimmedCurrentTag = currentTag.startsWith("@") ? currentTag.substring(1) : currentTag;
-		List<Map<String, String>> getUserData = (UserExcelReader.getData(EnvConstants.Excelpath, "Dietician_data"));
-		Map<String, String> rowdata = getUserData.stream().filter(row -> row.get("scenario").equals(trimmedCurrentTag))
-				.findFirst()
-				.orElseThrow(() -> new RuntimeException("No matching data found for tag: " + trimmedCurrentTag));
-		
-		if (trimmedCurrentTag.equals("DieticianLogin1")) {
+	
+		if (currentTag.equals("@DieticianLogin1")) {
 		
 		diet_Email = EnvVariables.dietician1_Email;
 		diet_Pwd = EnvVariables.dietician1_loginPassword;
 		System.out.println("Dietician loggedin successfully");
 
 		}
-		else if(trimmedCurrentTag.equals("DieticianInvalid2")) {
+		else if(currentTag.equals("@DieticianInvalid2")) {
 			
-			diet_Email = rowdata.get("userLoginEmail");
-			diet_Pwd = rowdata.get("password");
+			diet_Email = EnvConstants.Invalid_dietician_Email;
+			diet_Pwd = EnvConstants.Invalid_Dietician_pwd;
 		}
 		
 		// Construct JSON payload using Gson
