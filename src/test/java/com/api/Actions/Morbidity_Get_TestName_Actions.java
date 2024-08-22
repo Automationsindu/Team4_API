@@ -80,6 +80,8 @@ public Response morbidityDieticianTokenTSH(RequestSpecification reqSpec)
 	String endpoint = EnvConstants.morbidity_Endpoint+"/"+"TSH";
 
 	System.out.println("Morbidity TestName is : " + endpoint);
+
+	System.out.println("EnvVariables.Diet_token : " + EnvVariables.Diet_token);
 	
     response = restUtil.retrieve(reqSpec, EnvVariables.Diet_token, endpoint);
 	
