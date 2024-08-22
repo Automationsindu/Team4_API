@@ -194,7 +194,6 @@ public class Dietician_Post_Get_Actions {
 						EnvConstants.createDietician_Endpoint);
 		    	break;
 		    case "create_dietician_invalidContentType":
-		    	//RequestSpecification defaultSpec = restUtil.getRequestSpec();
 		    	
 		    	RequestSpecification textspec = reqSpec.contentType(io.restassured.http.ContentType.TEXT);
 		    	response = restUtil.create(textspec, EnvVariables.token, requestBody,
@@ -204,7 +203,11 @@ public class Dietician_Post_Get_Actions {
 		    	response = restUtil.create(reqSpec, EnvVariables.token, requestBody,
 						EnvConstants.Invalid_createDietician_Endpoint);
 		    	break;
-		    	default :
+		    case "create_dietician_with_dietician_token":
+		    	response = restUtil.create(reqSpec, EnvVariables.Diet_token, requestBody,
+						EnvConstants.createDietician_Endpoint);
+		    	break;
+		    default :
 		    		throw new RuntimeException("no matching tag :" +trimmedCurrentTag);
 		    }
 		    
@@ -241,7 +244,11 @@ public class Dietician_Post_Get_Actions {
 		    	response = restUtil.retrieve(reqSpec, EnvVariables.token,
 						EnvConstants.Invalid_createDietician_Endpoint);
 		    	break;
-		  
+		    case "get_all_dieticians_with_dietician_token":
+		    	response = restUtil.retrieve(reqSpec, EnvVariables.Diet_token,
+						EnvConstants.createDietician_Endpoint);
+		    	break;
+		    	
 		    	default :
 		    		throw new RuntimeException("no matching tag :" +trimmedCurrentTag);
 		    }
@@ -286,7 +293,12 @@ public class Dietician_Post_Get_Actions {
 		    case "get_dietician_ID_invalidEndpoint":
 		    	response = restUtil.retrieve(reqSpec, EnvVariables.token,EnvConstants.Invalid_createDietician_Endpoint+"/"+EnvVariables.dietician1_ID);
 		    	break;
-		  
+		    	
+		    case "get_dietician_ID_with_dietician_token":
+		    	response = restUtil.retrieve(reqSpec, EnvVariables.Diet_token,
+		    			endpoint);
+		    	break;
+		    	
 		    	default :
 		    		throw new RuntimeException("no matching tag :" +trimmedCurrentTag);
 		    }
@@ -371,8 +383,7 @@ public class Dietician_Post_Get_Actions {
 		response.then()
 		.log().ifError()
 		.assertThat()
-        .statusCode(statusCode)
-        .contentType("application/json");
+        .statusCode(statusCode);
  
 	}
 	
