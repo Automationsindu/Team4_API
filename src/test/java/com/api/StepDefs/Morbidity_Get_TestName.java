@@ -160,6 +160,25 @@ public class Morbidity_Get_TestName {
 		API_BaseSetUp_Validations.validateStatusCode(response,statusCode);
 		API_BaseSetUp_Validations.validateContentType(response,"application/json");
 	}
+	
+	@Given("Patient create GET request to retrieve morbidity by test name")
+	public void patient_create_get_request_to_retrieve_morbidity_by_test_name() throws FileNotFoundException {
+		reqSpec = actionsMorbidityTestName.buildRequest();
+	}
+
+	@When("Patient send GET http request with endpoint to retrieve morbidity by test name")
+	public void patient_send_get_http_request_with_endpoint_to_retrieve_morbidity_by_test_name() {
+		response = actionsMorbidityTestName.morbidityPatientTestName(reqSpec);
+	}
+
+	@Then("Patient recieve {int} Forbidden")
+	public void patient_recieve_forbidden(Integer statusCode) {
+		API_BaseSetUp_Validations.validateStatusCode(response,statusCode);
+		API_BaseSetUp_Validations.validateContentType(response,"application/json");
+	}
+
+
+
 
 
 

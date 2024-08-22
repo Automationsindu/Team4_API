@@ -117,4 +117,14 @@ public Response morbidityDieticianTokenInvalidTestName(RequestSpecification reqS
 	//System.out.println("The Admin token for Morbidity stored in EnvVariables.token is "+ EnvVariables.token);
 	return response;
 }
+
+public Response morbidityPatientTestName(RequestSpecification reqSpec)
+{
+	String endpoint = EnvConstants.morbidity_Endpoint+"/"+"T4";
+
+	System.out.println("Morbidity TestName is : " + endpoint);
+    response = restUtil.retrieve(reqSpec, EnvVariables.Patient_token, endpoint);
+	System.out.println("The Patient token for Morbidity stored in Patient_token is "+ EnvVariables.Patient_token);
+	return response;
+}
 }

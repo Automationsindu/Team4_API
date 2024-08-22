@@ -57,5 +57,10 @@ Feature: Get Morbidity by TestName
   When Dietician with invalid testname send GET http request with invalid TestName
   Then Dietician with invalid testname recieves 404 not found
   
- 
+  @morbidityPatientTestName
+  Scenario: Check patient able to retrieve morbidity by test name
+  Given Patient create GET request to retrieve morbidity by test name
+  When Patient send GET http request with endpoint to retrieve morbidity by test name
+  Then Patient recieve 403 Forbidden 
+  
  
