@@ -85,7 +85,7 @@ public class UserLogin_Actions {
 			response = restUtil.create(reqSpec, requestBody, EnvConstants.login_Endpoint);
 			break;
 		case "LoginInvalidMethod3":
-			response = restUtil.get(reqSpec, requestBody, EnvConstants.login_Endpoint);
+			response = restUtil.get(reqSpec,EnvConstants.login_Endpoint);
 
 		case "LoginInvalidEndpoint4":
 			response = restUtil.create(reqSpec, requestBody, EnvConstants.Invalidlogin_Endpoint);

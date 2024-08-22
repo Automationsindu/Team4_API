@@ -9,6 +9,8 @@ public class EnvConstants {
 			
 	public static final String login_Endpoint= "/login";
 	
+	public static final String logout_Endpoint="/logoutdietician";
+	
 	public static final String createDietician_Endpoint= "/dietician";
 	
 	public static String Excelpath = "src/test/resources/Test_data/Dietician_testdata.xlsx";

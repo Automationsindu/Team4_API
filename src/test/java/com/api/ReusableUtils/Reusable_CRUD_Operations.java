@@ -40,8 +40,16 @@ public Response create(RequestSpecification reqSpec,String requestBody, String e
 	return response;
 } 
 /* ==============================code for GET request as Invalid Method request  ============================ */
-public Response get(RequestSpecification reqSpec,String requestBody, String endPoint) {
-	Response response = reqSpec.body(requestBody).when().get(endPoint);
+public Response get(RequestSpecification reqSpec, String endPoint) {
+	Response response = reqSpec.when().get(endPoint);
+	
+	  // Log response details
+      System.out.println(response.getBody().asPrettyString());
+	return response;
+} 
+/* ==============================code for POST request as Invalid Method request  ============================ */
+public Response postLogout(RequestSpecification reqSpec,String token, String endPoint) {
+	Response response = reqSpec.when().post(endPoint);
 	
 	  // Log response details
       System.out.println(response.getBody().asPrettyString());
