@@ -304,7 +304,8 @@ private String generateRandomDOB() {
 // Method to generate a random phone number
 public static String generateRandomPhoneNumber() {
     // Generate a random number between 1000000000 (inclusive) and 10000000000 (exclusive)
-    long number = 1000000000L + random.nextLong();
+    //long number = 1000000000L + random.nextLong(9000000000L);
+	long number = (long) (random.nextDouble() * 9000000000L) + 1000000000L;
     return Long.toString(number);
 }
 
