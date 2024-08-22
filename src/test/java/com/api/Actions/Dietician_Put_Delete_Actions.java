@@ -92,4 +92,68 @@ public class Dietician_Put_Delete_Actions {
 		return requestBody;
 
 	}
+public void validateRequest(Response response) {
+		
+		JsonPath jsonPathEvaluator = response.jsonPath();
+		
+		System.out.println("Login json :" + jsonPathEvaluator.get("ContactNumber"));
+		
+		System.out.println("req json :" + ContactNumber);
+		
+		assertThat("ContactNumber is not matching", jsonPathEvaluator.get("ContactNumber"), is(ContactNumber));
+		
+		//Assert.assertEquals(jsonPathEvaluator.get("ContactNumber"), ContactNumber, "Correct ContactNumber received in the Response");
+	
+	}
+	
+	public Response updateDietician(RequestSpecification reqSpec, String requestData, String currentTag)
+			throws InvalidFormatException, IOException {
+
+		
+		String trimmedCurrentTag = currentTag.startsWith("@")? currentTag.substring(1) : currentTag ;
+		
+		System.out.println("trimmedCurrentTag is : " + trimmedCurrentTag);
+		 
+		    // sending request
+		
+		    switch(trimmedCurrentTag) {
+		    case "update_dietician_positive":
+		    	response = restUtil.create(reqSpec, EnvVariables.token, requestBody,
+						EnvConstants.updateDietician_Endpoint);
+		    	break;
+		    
+		    case "update_dietician_invalidData":
+		    	response = restUtil.create(reqSpec, EnvVariables.token, requestBody,
+						EnvConstants.updateDietician_Endpoint);
+		    	break;
+		    case "update_dietician_invalidMethod":
+		    	response = restUtil.put(reqSpec, EnvVariables.token, requestBody,
+						EnvConstants.updateDietician_Endpoint);
+		  
+		    	break;
+		    	
+		    case "update_dietician_invalidEndpoint":
+		    	response = restUtil.create(reqSpec, EnvVariables.token, requestBody,
+						EnvConstants.updateDietician_Endpoint);
+		    	break;
+		    case "update_dietician_invalidContentType":
+		    	//RequestSpecification defaultSpec = restUtil.getRequestSpec();
+		    	
+		    	RequestSpecification textspec = reqSpec.contentType(io.restassured.http.ContentType.TEXT);
+		    	response = restUtil.create(textspec, EnvVariables.token, requestBody,
+						EnvConstants.updateDietician_Endpoint);
+		    	break;
+		    	default :
+		    		throw new RuntimeException("no matching tag :" +trimmedCurrentTag);
+		    }
+		    
+		    //System.out.println("out switch case "+response.asPrettyString());
+		 
+		return response;
+	}
+
+	public Response UpdateDietician(RequestSpecification reqSpec, String requestData, String currentTag) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
