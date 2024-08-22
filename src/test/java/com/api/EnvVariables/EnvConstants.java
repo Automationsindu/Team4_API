@@ -21,6 +21,8 @@ public class EnvConstants {
 	
 
 	public static final String morbidity_Endpoint= "/morbidity";
+	
+	public static final String Invalid_morbidity_Endpoint= "/moorbidity";
 
 	public static final String Invalid_dietician_Email="check@html";
 	
