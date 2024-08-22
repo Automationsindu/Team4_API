@@ -16,7 +16,7 @@ Scenario Outline: Check dietician able to create patient with no auth
     
     
 @using_adminToken
-# Negative Scenario: Forbidden access for admin
+
 Scenario Outline: Check admin able to create patient with admin bearer token 
     Given Admin creates POST request by entering valid data into the form-data key and value fields with "<adminToken>"
     When Admin sends POST http request with endpoint
@@ -28,7 +28,7 @@ Scenario Outline: Check admin able to create patient with admin bearer token
 
 
 @using_patientToken
-# Negative Scenario: Forbidden access for patient
+
 Scenario Outline: Check patient able to create patient with patient bearer token
     Given Patient creates POST request by entering valid data into the form-data key and value fields "<patientToken>"
     When Patient sends POST http request with endpoint
@@ -46,7 +46,7 @@ Scenario: Check dietician able to create patient with valid data and token
     
   
  @Positive @mandatory_fields   
-# Positive Scenario: Successful creation of patient with only valid mandatory details
+
 Scenario: Check dietician able to create patient only with valid mandatory details
     Given Dietician creates POST request only by valid mandatory details into the form-data key and value fields
     When Dietician sends POST http request with endpoint with only mandatory field
@@ -55,7 +55,7 @@ Scenario: Check dietician able to create patient only with valid mandatory detai
  
  
  @invalidMandatory
- # Negative Scenario: Creation attempt with invalid mandatory detail
+
 Scenario Outline: Check dietician able to create patient with invalid data "
     Given Dietician creates POST request only by invalid mandatory details into the form-data key and value fields with "<mandatory details>"
     When Dietician sends POST http request with endpoint with invalid mandatory
@@ -65,7 +65,7 @@ Scenario Outline: Check dietician able to create patient with invalid data "
     |mandatory_details_Invalid|
 
 @invalidAdditional
-# Negative Scenario: Creation attempt with valid mandatory fields and invalid additional details
+
 Scenario Outline: Check dietician able to create patient with valid mandatory fields and invalid data  
     Given Dietician creates POST request only by invalid additional details into the form-data key and value fields "<additional details>" 
     When Dietician sends POST http request with endpoint with invalid additional
@@ -78,7 +78,7 @@ Scenario Outline: Check dietician able to create patient with valid mandatory fi
     
  
 @invalid_HTTP
-# Negative Scenario: Invalid HTTP method used
+
 Scenario Outline: Check dietician able to create patient with valid data and invalid method
     Given Dietician creates PUT request by entering valid data into the form-data key and value fields "<invalidHttp>"
     When Dietician sends PUT http request with endpoint
@@ -90,7 +90,7 @@ Scenario Outline: Check dietician able to create patient with valid data and inv
 
 
 @invalid_endpoint
-# Negative Scenario: Invalid endpoint used
+
 Scenario Outline: Check dietician able to create patient with valid data and invalid endpoint
     Given Dietician creates POST request by entering valid data into the form-data key and value fields "<invalidEndpoint>"
     When Dietician sends POST http request with invalid endpoint
@@ -101,7 +101,7 @@ Scenario Outline: Check dietician able to create patient with valid data and inv
 	|invalid_endpoint|
 	
 	@getAllPatients
-# Positive Scenario: Get all patients
+
 Scenario: Check dietician able to retrieve all patients
     Given  Dietician create GET request patient
     When Dietician send GET http request with endpoint patient
