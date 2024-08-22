@@ -1,7 +1,6 @@
 package com.api.EnvVariables;
 
 public class EnvVariables {
-
 	public static String token;
 	public static String Diet_token;
 	public static String Patient_token;
@@ -21,11 +20,5 @@ public class EnvVariables {
 	public static String dietician1_HospitalCity;
 	public static String dietician1_HospitalPincode;
 	public static String dietician1_Education;
-	public static String patientId;
-	public static String fileId;
-	public static String patientId_Delete;
-
+	
 }
-
-
-
