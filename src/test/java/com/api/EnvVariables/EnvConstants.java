@@ -19,10 +19,7 @@ public class EnvConstants {
 	
 	public static final String Invalid_createDietician_Endpoint= "/dieticiann";
 	
-	
-	
-			
-	
- 
- 
+
+	public static final String morbidity_Endpoint= "/morbidity";
+
 }
