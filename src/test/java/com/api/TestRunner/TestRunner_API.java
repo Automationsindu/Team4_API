@@ -6,9 +6,12 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 
-//plugin={"pretty", "html:target/Cucumber_DsAlgo_1Browser.html","json:target/cucumber-report.json","com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}, //reporting purpose
-//monochrome = false, // console output color
-//dryRun = !true, //To add new method give true
+/*
+@CucumberOptions(plugin = {"pretty", "html:target/Cucumber_Rest_Assured.html"},
+features = "src/test/resources/Feature",
+glue = {"com.api.StepDefs"})
+*/
+
 
 
 @CucumberOptions(
@@ -19,6 +22,7 @@ import io.cucumber.junit.CucumberOptions;
 				    //"src/test/resources/Feature/05.UserLogOut.feature"},
         glue = {"com.api.StepDefs"},
         plugin = {"pretty", "html:target/cucumber-reports"})
+
 
 public class TestRunner_API {
 
