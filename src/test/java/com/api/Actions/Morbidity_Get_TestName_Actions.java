@@ -45,7 +45,7 @@ public Response morbidityAdminTokenInvalidMethod(RequestSpecification reqSpec)
 	return response;
 }
 
-public Response morbidityAdminTokenInvalidEndpoint(RequestSpecification reqSpec)
+public Response morbidityAdminTokenInvalidTestName(RequestSpecification reqSpec)
 {
 	String endpoint = EnvConstants.morbidity_Endpoint+"/"+"Fasting Glucose123";
 
@@ -55,4 +55,76 @@ public Response morbidityAdminTokenInvalidEndpoint(RequestSpecification reqSpec)
 	return response;
 }
 
+public Response morbidityAdminTokenInvalidEndpoint(RequestSpecification reqSpec)
+{
+	String endpoint = EnvConstants.Invalid_morbidity_Endpoint+"/"+"Fasting Glucose";
+
+	System.out.println("Morbidity TestName is : " + endpoint);
+    response = restUtil.retrieve(reqSpec, EnvVariables.token, endpoint);
+	//System.out.println("The Admin token for Morbidity stored in EnvVariables.token is "+ EnvVariables.token);
+	return response;
+}
+
+public Response GetMorbidityDieticianwithNoAuth(RequestSpecification reqSpec)
+{
+	String endpoint = EnvConstants.morbidity_Endpoint+"/"+"Plasma Glucose";
+
+	System.out.println("Morbidity TestName is : " + endpoint);
+    response = restUtil.retrieve(reqSpec, endpoint);
+    System.out.println("The Admin token for Morbidity stored in EnvVariables.token is "+ EnvVariables.token);
+	return response;
+}
+
+public Response morbidityDieticianTokenTSH(RequestSpecification reqSpec)
+{
+	String endpoint = EnvConstants.morbidity_Endpoint+"/"+"TSH";
+
+	System.out.println("Morbidity TestName is : " + endpoint);
+	
+    response = restUtil.retrieve(reqSpec, EnvVariables.Diet_token, endpoint);
+	
+	return response;	
+
+}
+
+public Response morbidityDieticianTokenInvalidMethod(RequestSpecification reqSpec)
+{
+	String endpoint = EnvConstants.morbidity_Endpoint+"/"+"T3";
+
+	System.out.println("Morbidity TestName is : " + endpoint);
+	
+    response = restUtil.post(reqSpec, EnvVariables.Diet_token, endpoint);
+	
+	return response;
+}
+
+public Response morbidityDieticianTokenInvalidEndpoint(RequestSpecification reqSpec)
+{
+	String endpoint = EnvConstants.Invalid_morbidity_Endpoint+"/"+"T3";
+
+	System.out.println("Morbidity TestName is : " + endpoint);
+    response = restUtil.retrieve(reqSpec, EnvVariables.Diet_token, endpoint);
+	//System.out.println("The Admin token for Morbidity stored in EnvVariables.token is "+ EnvVariables.token);
+	return response;
+}
+
+public Response morbidityDieticianTokenInvalidTestName(RequestSpecification reqSpec)
+{
+	String endpoint = EnvConstants.morbidity_Endpoint+"/"+"T5";
+
+	System.out.println("Morbidity TestName is : " + endpoint);
+    response = restUtil.retrieve(reqSpec, EnvVariables.Diet_token, endpoint);
+	//System.out.println("The Admin token for Morbidity stored in EnvVariables.token is "+ EnvVariables.token);
+	return response;
+}
+
+public Response morbidityPatientTestName(RequestSpecification reqSpec)
+{
+	String endpoint = EnvConstants.morbidity_Endpoint+"/"+"T4";
+
+	System.out.println("Morbidity TestName is : " + endpoint);
+    response = restUtil.retrieve(reqSpec, EnvVariables.Patient_token, endpoint);
+	System.out.println("The Patient token for Morbidity stored in Patient_token is "+ EnvVariables.Patient_token);
+	return response;
+}
 }
