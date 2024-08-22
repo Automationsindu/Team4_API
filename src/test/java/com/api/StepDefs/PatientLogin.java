@@ -8,6 +8,8 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import com.api.Actions.UserLogin_Actions;
 import com.api.ReusableUtils.API_BaseSetUp_Validations;
 
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -22,6 +24,12 @@ public class PatientLogin {
 	long expectedResponseTime;
 	String expectedContentType;
 	String currentTag;
+	
+	@Before
+	public void beforeScenario(Scenario scenario) {
+		currentTag = scenario.getSourceTagNames().iterator().next();
+	}
+	
 @Given("User creates Post request with request body for patient Login")
 public void user_creates_post_request_with_request_body_for_patient_login() {
 	try {
@@ -33,7 +41,7 @@ public void user_creates_post_request_with_request_body_for_patient_login() {
 }
 
 @When("User send POST HTTP request with endpoint for patient Login")
-public void the_send_post_http_request_with_endpoint_for_patient_login(String string) throws InvalidFormatException, IOException {
+public void the_send_post_http_request_with_endpoint_for_patient_login() throws InvalidFormatException, IOException {
 	response =actionsLogin.PatientLogin(reqSpec, currentTag);
 			
 }

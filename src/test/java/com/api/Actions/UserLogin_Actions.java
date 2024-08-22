@@ -167,7 +167,6 @@ public class UserLogin_Actions {
 		if (trimmedCurrentTag.equals("PatientLogin1")){
 		patient_Email = EnvVariables.patient1_Email1;
 		patient_Pwd = rowdata.get("password");
-		System.out.println("Patient loggedin successfully");
 		}
 		else if(trimmedCurrentTag.equals("PatientInvalidLogin2")) {
 			patient_Email = rowdata.get("userLoginEmail");
@@ -176,6 +175,7 @@ public class UserLogin_Actions {
 		// Construct JSON payload using Gson
 
 		requestBody = createJsonPayload("password", patient_Pwd, "userLoginEmail", patient_Email);
+		System.out.println(requestBody);
 		response = restUtil.create(reqSpec, requestBody, EnvConstants.login_Endpoint);
 		statusCode = response.getStatusCode();
 

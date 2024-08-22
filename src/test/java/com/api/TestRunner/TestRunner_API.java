@@ -10,14 +10,15 @@ import io.cucumber.junit.CucumberOptions;
 //monochrome = false, // console output color
 //dryRun = !true, //To add new method give true
 
-
-@CucumberOptions(tags ="@DieticianInvalid2",
+@CucumberOptions(plugin = { "pretty", "html:target/cucumberreport.html", "html:target/ExtentReports/UserAPI.html",
+		"rerun:target/failedrerun.txt", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
+		"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:" }, monochrome = true,
+		tags = "@DieticianInvalid2",
 //"@LoginPositive1 or  @create_dietician_positive or @DieticianLogin1",
-		//or @DieticianInvalid2",
+		// or @DieticianInvalid2",
 		features = "src/test/resources/Feature",
-				    //"src/test/resources/Feature/05.UserLogOut.feature"},
-        glue = {"com.api.StepDefs"},
-        plugin = {"pretty", "html:target/cucumber-reports"})
+		// "src/test/resources/Feature/05.UserLogOut.feature"},
+		glue = { "com.api.StepDefs" })
 
 public class TestRunner_API {
 
