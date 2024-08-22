@@ -11,4 +11,14 @@ public class EnvVariables {
 	public static String dietician2_ID;
 	public static String dietician2_Email;
 	public static String dietician2_loginPassword;
+	public static String dietician1_Firstname;
+	public static String dietician1_Lastname;
+	public static String dietician1_ContactNumber;
+	public static String dietician1_DateOfBirth;
+	public static String dietician1_HospitalName;
+	public static String dietician1_HospitalStreet;
+	public static String dietician1_HospitalCity;
+	public static String dietician1_HospitalPincode;
+	public static String dietician1_Education;
+	
 }
