@@ -11,7 +11,8 @@ import io.cucumber.junit.CucumberOptions;
 //dryRun = !true, //To add new method give true
 
 
-@CucumberOptions(tags ="@DieticianInvalid2",
+@CucumberOptions(
+		//tags ="@positive11",
 //"@LoginPositive1 or  @create_dietician_positive or @DieticianLogin1",
 		//or @DieticianInvalid2",
 		features = "src/test/resources/Feature",

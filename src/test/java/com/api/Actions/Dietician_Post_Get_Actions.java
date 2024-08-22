@@ -174,6 +174,10 @@ public class Dietician_Post_Get_Actions {
 		    case "create_dietician_positive":
 		    	response = restUtil.create(reqSpec, EnvVariables.token, requestBody,
 						EnvConstants.createDietician_Endpoint);
+				System.out.println("tEnvVariables.token : " + EnvVariables.token);
+
+
+
 		    	break;
 		    case "create_dietician_AdditionalData":
 		    	response = restUtil.create(reqSpec, EnvVariables.token, requestBody,

@@ -26,7 +26,7 @@ Feature: Get Morbidity
   When Admin send GET http request
   Then admin recieves 404 not found
   
-  @morbidityDietician
+  @morbidityDietician @positive11
   Scenario: Check dietician with valid token able to retrieve all morbidity
   Given Dietician with valid token create GET request
   When Dietician with valid token send GET http request with endpoint
