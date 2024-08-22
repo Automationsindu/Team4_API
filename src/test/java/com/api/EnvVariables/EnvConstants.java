@@ -9,6 +9,8 @@ public class EnvConstants {
 			
 	public static final String login_Endpoint= "/login";
 	
+	public static final String logout_Endpoint="/logoutdietician";
+	
 	public static final String createDietician_Endpoint= "/dietician";
 	
 	public static String Excelpath = "src/test/resources/Test_data/Dietician_testdata.xlsx";
@@ -17,6 +19,10 @@ public class EnvConstants {
 	
 	public static final String Invalid_createDietician_Endpoint= "/dieticiann";
 	
- 
- 
+
+	public static final String morbidity_Endpoint= "/morbidity";
+
+	public static final String Invalid_dietician_Email="check@html";
+	
+	public static final String Invalid_Dietician_pwd="dietician";
 }
