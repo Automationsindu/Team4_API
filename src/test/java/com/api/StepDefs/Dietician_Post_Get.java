@@ -32,8 +32,8 @@ public class Dietician_Post_Get {
 		currentTag = scenario.getSourceTagNames().iterator().next();
 	}
 
-	@Given("Admin creates Dietician POST request with valid data")
-	public void admin_creates_dietician_post_request_with_valid_data() throws InvalidFormatException, IOException {
+	@Given("User creates Dietician POST request with valid data")
+	public void user_creates_dietician_post_request_with_valid_data() throws InvalidFormatException, IOException {
 	    
 		reqSpec = actionsDietician.buildRequest();
 		requestData = actionsDietician.buildValidRequestData(reqSpec);
@@ -209,8 +209,8 @@ public class Dietician_Post_Get {
 	 * 
 	 * }
 	 */
-	@Given("Admin creates GET request to retrieve all dieticians")
-	public void admin_creates_get_request_to_retrieve_all_dieticians() throws FileNotFoundException {
+	@Given("User creates GET request to retrieve all dieticians")
+	public void user_creates_get_request_to_retrieve_all_dieticians() throws FileNotFoundException {
 		
 		reqSpec = actionsDietician.buildRequest();
 	    
@@ -256,8 +256,8 @@ public class Dietician_Post_Get {
 	   
 	}
 
-	@Given("Admin creates GET request to retrieve dietician by ID")
-	public void admin_creates_get_request_to_retrieve_dietician_by_id() throws FileNotFoundException {
+	@Given("User creates GET request to retrieve dietician by ID")
+	public void user_creates_get_request_to_retrieve_dietician_by_id() throws FileNotFoundException {
 		
 		reqSpec = actionsDietician.buildRequest();
 	   
@@ -297,9 +297,45 @@ public class Dietician_Post_Get {
 		response = actionsDietician.getDieticianByID(reqSpec, currentTag);
 	    
 	}
-
-
 	
-	
+	@When("Set dietician token and User sends Dietician POST http request with endpoint")
+	public void set_dietician_token_and_user_sends_dietician_post_http_request_with_endpoint() throws InvalidFormatException, IOException {
+		
+		response = actionsDietician.createDietician(reqSpec,requestData,currentTag);
+	    
+	}
+
+	@Then("User should receive {int} forbidden for dietician module")
+	public void user_should_receive_forbidden_for_dietician_module(Integer statusCode) {
+		
+		actionsDietician.validateResponse(response,statusCode);
+	    
+	}
+
+	@When("Set dietician token and User sends GET all dieticians http request with endpoint")
+	public void set_dietician_token_and_user_sends_get_all_dieticians_http_request_with_endpoint() throws InvalidFormatException, IOException {
+		
+		response = actionsDietician.getAllDieticians(reqSpec, currentTag);
+	    
+	}
+	@When("Set dietician token and User sends GET dietician by ID http request with endpoint")
+	public void set_dietician_token_and_user_sends_get_dietician_by_id_http_request_with_endpoint() throws InvalidFormatException, IOException {
+		
+		response = actionsDietician.getDieticianByID(reqSpec, currentTag);
+	    
+	}
+
+	@Then("User should receive {int} ok with details of the dietician id")
+	public void user_should_receive_ok_with_details_of_the_dietician_id(Integer statusCode) {
+		
+		actionsDietician.validateGetDieticianByIDResponse(response,statusCode);
+	    
+	}
+	@Then("User should receive {int} ok with response body")
+	public void user_should_receive_ok_with_response_body(Integer statusCode) {
+		
+		actionsDietician.validateGetAllDieticiansResponse(response,statusCode);
+	    
+	}
 	
 }
