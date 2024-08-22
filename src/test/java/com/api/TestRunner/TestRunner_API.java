@@ -21,7 +21,7 @@ glue = {"com.api.StepDefs"})
 		features = "src/test/resources/Feature",
 				    //"src/test/resources/Feature/05.UserLogOut.feature"},
         glue = {"com.api.StepDefs"},
-        plugin = {"pretty", "html:target/cucumber-reports"})
+        plugin = {"pretty", "html:target/cucumber-reports.html"})
 
 
 public class TestRunner_API {
